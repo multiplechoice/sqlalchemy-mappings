@@ -1,6 +1,6 @@
 import datetime
 
-from common import ScrapedJob
+from mappings import ScrapedJob
 
 expected_item_with_datetimes = {
     "company": "Nings ",
@@ -26,32 +26,6 @@ expected_item_without_url = {
     "spider": "alfred",
     "title": "Leitum af uppvaskara / looking for dishwasher",
 }
-
-examples = [
-    {
-        "company": "Leiksk\u00f3linn M\u00falaborg",
-        "deadline": "2017-06-20T00:00:00",
-        "posted": "2017-06-06T10:31:00",
-        "spider": "alfred",
-        "title": "Deildarstj\u00f3ri/leiksk\u00f3lakennari ",
-        "url": "https://alfred.is/starf/11080"
-    },
-    {
-        "company": "Sushi Social",
-        "deadline": "2017-11-06T00:00:00",
-        "posted": "2017-06-06T10:32:00",
-        "spider": "alfred",
-        "title": "Uppvaskari/Dishwasher/ kitchen assistant ",
-        "url": "https://alfred.is/starf/11079"
-    },
-    {
-        "company": "Apotek kitchen + bar",
-        "deadline": "2017-11-06T00:00:00",
-        "posted": "2017-06-06T10:49:00",
-        "spider": "alfred",
-        "title": "Vanir \u00fej\u00f3nar \u00ed hlutastarf :)",
-        "url": "https://alfred.is/starf/11081"
-    }]
 
 
 def test_expected_invocation():

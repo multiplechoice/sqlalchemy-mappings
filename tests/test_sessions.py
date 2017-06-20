@@ -1,8 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm.session import Session
 
-from common import ScrapedJob, Base
-from common.utils import session_scope, install_pgcrypto, create_table, create_user, alter_table_owner
+from mappings import ScrapedJob, Base
+from mappings.utils import session_scope, install_pgcrypto, create_table, create_user, alter_table_owner
 
 SUPERUSER = 'postgresql://postgres@localhost:5432/jobdb'
 DIRK = 'postgresql://dirk_gently@localhost:5432/jobdb'

@@ -4,7 +4,7 @@ import sqlalchemy.engine.base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from common import Base
+from . import Base
 
 
 @contextmanager
