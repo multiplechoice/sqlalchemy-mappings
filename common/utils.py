@@ -30,3 +30,18 @@ def install_pgcrypto(db_connection):
 def create_table(db_connection):
     assert isinstance(db_connection, sqlalchemy.engine.base.Engine)
     Base.metadata.create_all(db_connection, checkfirst=True)
+
+
+def create_user(db_connection, username, password=None):
+    assert isinstance(db_connection, sqlalchemy.engine.base.Engine)
+    query = """CREATE USER {user}""".format(user=username)
+    if password is not None:
+        query += """ WITH PASSWORD {password!r}""".format(password=password)
+    query += """ NOINHERIT;"""
+    db_connection.execute(query)
+
+
+def alter_table_owner(db_connection, username, table):
+    assert isinstance(db_connection, sqlalchemy.engine.base.Engine)
+    query = """ALTER TABLE "{table}" OWNER TO {user};""".format(table=table, user=username)
+    db_connection.execute(query)
