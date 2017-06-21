@@ -31,9 +31,10 @@ expected_item_without_url = {
 def test_expected_invocation():
     job = ScrapedJob.from_dict(expected_item_with_datetimes)
     # created_at will be extracted from the input dict
-    assert isinstance(job.created_at, datetime.datetime)
-    assert job.created_at.isoformat() == '2017-06-06T10:15:00'
-    # we won't have a last_modified time yet since we've not written it to the db
+    assert isinstance(job.posted, datetime.datetime)
+    assert job.posted.isoformat() == '2017-06-06T10:15:00'
+    # we won't have a created_at or last_modified time yet since we've not written it to the db
+    assert job.created_at is None
     assert job.last_modified is None
     assert job.url == 'https://alfred.is/starf/11076'
     assert job.data == expected_item_with_datetimes
@@ -42,8 +43,9 @@ def test_expected_invocation():
 
 def test_expected_when_posted_is_a_date():
     job = ScrapedJob.from_dict(expected_item_with_date)
-    assert isinstance(job.created_at, datetime.datetime)
-    assert job.created_at.isoformat() == '2017-06-06T00:00:00'
+    assert isinstance(job.posted, datetime.datetime)
+    assert job.posted.isoformat() == '2017-06-06T00:00:00'
+    assert job.created_at is None
     assert job.last_modified is None
     assert job.data == expected_item_with_date
     assert job.id is None
@@ -60,6 +62,7 @@ def test_expected_when_item_is_empty():
     assert job.url is None
     assert job.created_at is None
     assert job.last_modified is None
+    assert job.posted is None
     assert job.id is None
 
 
@@ -69,4 +72,5 @@ def test_init_method():
     assert job.url is None
     assert job.created_at is None
     assert job.last_modified is None
+    assert job.posted is None
     assert job.id is None

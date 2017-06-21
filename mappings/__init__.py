@@ -1,7 +1,8 @@
 import dateutil.parser
-from sqlalchemy import Column, Text, event
+from sqlalchemy import Column, Text, event, cast
 from sqlalchemy.dialects.postgresql import UUID, JSONB, TIMESTAMP
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import func
 
 Base = declarative_base()
@@ -26,10 +27,18 @@ class ScrapedJob(Base):
         instance = cls()
         if 'url' in input_dict:
             instance.url = input_dict['url']
-        if 'posted' in input_dict:
-            instance.created_at = dateutil.parser.parse(input_dict['posted'])
         instance.data = input_dict
         return instance
+
+    @hybrid_property
+    def posted(self):
+        if self.data is None or 'posted' not in self.data:
+            return None
+        return dateutil.parser.parse(self.data['posted'])
+
+    @posted.expression
+    def posted(cls):
+        return cast(cls.data.op('->>')('posted'), TIMESTAMP(timezone=True))
 
 
 @event.listens_for(ScrapedJob, 'before_update', propagate=True)
