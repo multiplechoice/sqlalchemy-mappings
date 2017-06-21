@@ -39,6 +39,7 @@ def test_expected_invocation():
     assert job.url == 'https://alfred.is/starf/11076'
     assert job.data == expected_item_with_datetimes
     assert job.id is None
+    assert job.spider == 'alfred'
 
 
 def test_expected_when_posted_is_a_date():
@@ -49,6 +50,7 @@ def test_expected_when_posted_is_a_date():
     assert job.last_modified is None
     assert job.data == expected_item_with_date
     assert job.id is None
+    assert job.spider == 'alfred'
 
 
 def test_exected_when_url_is_missing():
@@ -64,6 +66,7 @@ def test_expected_when_item_is_empty():
     assert job.last_modified is None
     assert job.posted is None
     assert job.id is None
+    assert job.spider is None
 
 
 def test_init_method():
@@ -74,3 +77,4 @@ def test_init_method():
     assert job.last_modified is None
     assert job.posted is None
     assert job.id is None
+    assert job.spider is None

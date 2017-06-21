@@ -40,6 +40,16 @@ class ScrapedJob(Base):
     def posted(cls):
         return cast(cls.data.op('->>')('posted'), TIMESTAMP(timezone=True))
 
+    @hybrid_property
+    def spider(self):
+        if self.data is None or 'spider' not in self.data:
+            return None
+        return self.data['spider']
+
+    @spider.expression
+    def spider(cls):
+        return cls.data.op('->>')('spider')
+
 
 @event.listens_for(ScrapedJob, 'before_update', propagate=True)
 def update_last_modified_timestamp(mapper, connection, row):
