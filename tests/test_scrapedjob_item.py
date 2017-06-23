@@ -40,6 +40,17 @@ def test_expected_invocation():
     assert job.data == expected_item_with_datetimes
     assert job.id is None
     assert job.spider == 'alfred'
+    assert job.as_dict() == {
+        'created_at': None,
+        'last_modified': None,
+        'id': None,
+        'url': 'https://alfred.is/starf/11076',
+        'spider': 'alfred',
+        'deadline': '2017-06-13T00:00:00',
+        'posted': '2017-06-06T10:15:00',
+        'title': 'Okkur vantar sendla, ert \u00fe\u00fa r\u00e9tta manneskjan?',
+        'company': 'Nings '
+    }
 
 
 def test_expected_when_posted_is_a_date():
@@ -56,6 +67,7 @@ def test_expected_when_posted_is_a_date():
 def test_exected_when_url_is_missing():
     job = ScrapedJob.from_dict(expected_item_without_url)
     assert job.url is None
+    assert 'url' not in job.as_dict()
 
 
 def test_expected_when_item_is_empty():
@@ -67,6 +79,7 @@ def test_expected_when_item_is_empty():
     assert job.posted is None
     assert job.id is None
     assert job.spider is None
+    assert job.as_dict() == {'created_at': None, 'last_modified': None, 'id': None}
 
 
 def test_init_method():
@@ -78,3 +91,4 @@ def test_init_method():
     assert job.posted is None
     assert job.id is None
     assert job.spider is None
+    assert job.as_dict() == {'created_at': None, 'last_modified': None, 'id': None}

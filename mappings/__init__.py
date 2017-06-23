@@ -50,6 +50,16 @@ class ScrapedJob(Base):
     def spider(cls):
         return cls.data.op('->>')('spider')
 
+    def as_dict(self):
+        contents = dict()
+
+        if self.data:
+            contents.update(self.data)
+        contents['created_at'] = self.created_at
+        contents['last_modified'] = self.last_modified
+        contents['id'] = self.id
+        return contents
+
 
 @event.listens_for(ScrapedJob, 'before_update', propagate=True)
 def update_last_modified_timestamp(mapper, connection, row):
