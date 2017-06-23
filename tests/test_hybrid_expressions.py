@@ -24,7 +24,7 @@ example_data = [
         'title': 'Do you want to goto space?',
         'company': 'Lunar Industries'
     },
-    # scraped item with empy string for the spider
+    # scraped item with empty string for the spider
     {
         'url': 'https://example.com/job/3/',
         'spider': '',
@@ -58,6 +58,18 @@ def test_find_by_spider():
         assert session.query(ScrapedJob.data).filter(ScrapedJob.spider == 'tarantula').one()[0] == example_data[0]
         assert session.query(ScrapedJob.data).filter(ScrapedJob.spider == None).one()[0] == example_data[1]
         assert session.query(ScrapedJob.data).filter(ScrapedJob.spider == '').one()[0] == example_data[2]
+
+
+def test_as_dict():
+    with session_scope(FARAH) as session:
+        job = session.query(ScrapedJob).filter(ScrapedJob.spider == 'tarantula').one()
+        for key, value in example_data[0].iteritems():
+            assert key in job.as_dict()
+            assert job.as_dict()[key] == value
+
+        for key in ('created_at', 'last_modified', 'id'):
+            assert key in job.as_dict()
+            assert isinstance(job.as_dict()[key], basestring)
 
 
 def setup_module(module):

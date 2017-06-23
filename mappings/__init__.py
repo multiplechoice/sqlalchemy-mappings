@@ -55,9 +55,14 @@ class ScrapedJob(Base):
 
         if self.data:
             contents.update(self.data)
-        contents['created_at'] = self.created_at
-        contents['last_modified'] = self.last_modified
+
+        for key in ('created_at', 'last_modified'):
+            contents[key] = value = getattr(self, key)
+            if value is not None:
+                contents[key] = getattr(self, key).isoformat()
+
         contents['id'] = self.id
+
         return contents
 
 
