@@ -24,6 +24,15 @@ class ScrapedJob(Base):
 
     @classmethod
     def from_dict(cls, input_dict):
+        """
+        Used to instantiate a `ScrapedJob` instance from the data yielded by a Scrapy spider.
+        Args:
+            input_dict (dict): the Scrapy item
+
+        Returns:
+            obj:`ScrapedJob`: instance of the `ScrapedJob` class
+
+        """
         instance = cls()
         if 'url' in input_dict:
             instance.url = input_dict['url']
@@ -32,6 +41,14 @@ class ScrapedJob(Base):
 
     @hybrid_property
     def posted(self):
+        """
+        Extracts the timestamp of the posting from the data blob. If it is missing, or the data blob hasn't been set
+        we get None instead.
+
+        Returns:
+            datetime.datetime or None: posting date
+
+        """
         if self.data is None or 'posted' not in self.data:
             return None
         return dateutil.parser.parse(self.data['posted'])
@@ -42,6 +59,14 @@ class ScrapedJob(Base):
 
     @hybrid_property
     def spider(self):
+        """
+        Extracts the spider name from the data blob. If the spider field isn't present, or there is not data blob,
+        we get a None instead.
+
+        Returns:
+            basestring or None: the name of the spider
+
+        """
         if self.data is None or 'spider' not in self.data:
             return None
         return self.data['spider']
@@ -51,6 +76,14 @@ class ScrapedJob(Base):
         return cls.data.op('->>')('spider')
 
     def as_dict(self):
+        """
+        Flattens the fields of the instance into a single dict. This is useful for returning the data in the API,
+        since all fields are included.
+
+        Returns:
+            dict: all the fields in the `ScrapedJob` instance, flattened
+
+        """
         contents = dict()
 
         if self.data:
