@@ -72,6 +72,12 @@ def test_as_dict():
             assert isinstance(job.as_dict()[key], basestring)
 
 
+def test_date_of_posting():
+    with session_scope(FARAH) as session:
+        job = session.query(ScrapedJob).filter(ScrapedJob.date_of_posting == '2017-01-01').one()
+        assert job.date_of_posting.isoformat() == '2017-01-01'
+
+
 def setup_module(module):
     # connect as superuser and setup the db
     engine = create_engine(SUPERUSER)

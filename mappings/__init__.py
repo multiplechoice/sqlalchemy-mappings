@@ -1,6 +1,6 @@
 import dateutil.parser
 from sqlalchemy import Column, Text, event, cast
-from sqlalchemy.dialects.postgresql import UUID, JSONB, TIMESTAMP
+from sqlalchemy.dialects.postgresql import UUID, JSONB, TIMESTAMP, DATE
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import func
@@ -56,6 +56,24 @@ class ScrapedJob(Base):
     @posted.expression
     def posted(cls):
         return cast(cls.data.op('->>')('posted'), TIMESTAMP(timezone=True))
+
+    @hybrid_property
+    def date_of_posting(self):
+        """
+        Returns the date of the posting, as a YYYY-MM-DD string.
+
+        Returns:
+            str: date of posting
+
+        """
+        posting = self.posted
+        if posting is not None:
+            return posting.date()
+        return None
+
+    @date_of_posting.expression
+    def date_of_posting(cls):
+        return cast(func.date_trunc('day', cls.posted), DATE)
 
     @hybrid_property
     def spider(self):
