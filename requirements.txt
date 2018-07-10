@@ -1,5 +1,5 @@
 python-dateutil==2.7.3
 psycopg2==2.7.5
 SQLAlchemy==1.2.9
-pytest==3.6.2
+pytest==3.6.3
 pytest-cov==2.5.1
