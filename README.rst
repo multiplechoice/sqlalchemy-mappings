@@ -3,6 +3,16 @@
 sqlalchemy-mappings
 ===================
 
+Running
+-------
+
+This project uses Python 3.7 installed using the Pyenv tool.
+
+Testing
+-------
+
+Tests are run using pytest.
+
 
 .. |Build Status| image:: https://travis-ci.org/multiplechoice/sqlalchemy-mappings.svg?branch=master
   :target: https://travis-ci.org/multiplechoice/sqlalchemy-mappings

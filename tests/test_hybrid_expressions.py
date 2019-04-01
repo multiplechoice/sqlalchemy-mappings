@@ -63,13 +63,13 @@ def test_find_by_spider():
 def test_as_dict():
     with session_scope(FARAH) as session:
         job = session.query(ScrapedJob).filter(ScrapedJob.spider == 'tarantula').one()
-        for key, value in example_data[0].iteritems():
+        for key, value in example_data[0].items():
             assert key in job.as_dict()
             assert job.as_dict()[key] == value
 
         for key in ('created_at', 'last_modified', 'id'):
             assert key in job.as_dict()
-            assert isinstance(job.as_dict()[key], basestring)
+            assert isinstance(job.as_dict()[key], str)
 
 
 def test_date_of_posting():
