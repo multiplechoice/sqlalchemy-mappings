@@ -82,7 +82,7 @@ class ScrapedJob(Base):
         we get a None instead.
 
         Returns:
-            basestring or None: the name of the spider
+            string or None: the name of the spider
 
         """
         if self.data is None or 'spider' not in self.data:
